@@ -93,3 +93,4 @@ test-tw-gcal-sync.json
 .tool-versions
 .lvimrc
 a
+venv

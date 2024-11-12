@@ -12,6 +12,7 @@ from syncall.tw_utils import (
     get_tw_status_and_uuid_as_str,
 )
 from syncall.types import GCalItem
+from isodate import duration_isoformat
 
 _prefix_title_success_str = "✅"
 _prefix_title_failed_str = "❌"
@@ -152,9 +153,9 @@ def convert_gcal_to_tw(
         gcal_summary = gcal_summary[len(_prefix_title_success_str) :]
     tw_item["description"] = gcal_summary
     date_key = "scheduled" if set_scheduled_date else "due"
+    start_time = GCalSide.get_event_time(gcal_item, t="start")
     end_time = GCalSide.get_event_time(gcal_item, t="end")
-
-    tw_item[tw_duration_key] = end_time - GCalSide.get_event_time(gcal_item, t="start")
+    tw_item[tw_duration_key] = duration_isoformat(end_time - start_time)
     tw_item[date_key] = end_time
 
     # Note:
